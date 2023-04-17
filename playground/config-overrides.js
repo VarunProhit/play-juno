@@ -13,7 +13,8 @@ module.exports = function override(config) {
       "util": require.resolve("util/"),
       "assert": require.resolve("assert/"),
       "constants": require.resolve("constants-browserify/"),
-      'fs':require.resolve("fs")
+      'fs':require.resolve("fs"),
+      "buffer": require.resolve("buffer/")
       }) 
    config.resolve.fallback = fallback; 
    config.plugins = (config.plugins || []).concat([ 
