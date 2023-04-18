@@ -9,14 +9,19 @@ import Query from './query';
 import './home.css'
 
 function Home() {
-  
+ 
   
     const [activeSection, setActiveSection] = useState<string | null>(null);
+    const [activeIndex, setActiveIndex] = useState<number>(0);
+    const [activeContract, setActiveContract] = useState<string>(contractName[activeIndex]);
   
     const handleNavClick = (sectionName: string) => {
       setActiveSection(sectionName);}
   
-  
+    const handleSidebarClick=(index: number)=>{
+      setActiveIndex(index);
+      setActiveContract(contractName[index]);
+    }
   return ( 
     <>
     <div className='home-page'>
@@ -27,14 +32,16 @@ function Home() {
            <ul>
           {contractName.map((name, index) => (
            <li key={index}>
-               {name}
+            <button onClick={()=>handleSidebarClick(index)}> {name}</button>
             </li>
            ))}
              </ul>
       </div>
       {/* <div className='navbar-container'> */}
         <div className='navbar'>
-          <div className='description'> <Headlines heading='Contract Name' subheading='contract description'></Headlines></div>
+          <div className='description'>
+             <Headlines heading= {activeContract} subheading='contract description'></Headlines>
+             </div>
        <button onClick={() => handleNavClick('instantiate')} className={`navbar-item ${activeSection !== 'query' && activeSection !== 'execute'? 'active' : ''}`}>
       <div className='instantiate'>
         
@@ -60,10 +67,10 @@ function Home() {
       </div>
       {/* </div> */}
       <div className='playground'>
-        {(activeSection !== 'instantiate' && activeSection !== 'execute' && activeSection !== 'query' )&& <Instantiate />}
-        {activeSection === 'instantiate' && <Instantiate />}
-        {activeSection === 'execute' && <Execute />}
-        {activeSection === 'query' && <Query />}
+        {(activeSection !== 'instantiate' && activeSection !== 'execute' && activeSection !== 'query' )&& <Instantiate contractName={activeContract}/>}
+        {activeSection === 'instantiate' && <Instantiate contractName= {activeContract}></Instantiate>}
+        {activeSection === 'execute' && <Execute contractName= {activeContract}/>}
+        {activeSection === 'query' && <Query contractName= {activeContract}/>}
       </div>
     </div>
       {/* </div> */}
